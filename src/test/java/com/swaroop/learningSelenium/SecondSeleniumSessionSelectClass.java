@@ -7,12 +7,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.GeckoDriverInfo;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class FirstSeleniumSession {
+public class SecondSeleniumSessionSelectClass {
 	
 	WebDriver wd;
 	
@@ -33,33 +34,29 @@ public class FirstSeleniumSession {
 		//Load a webPage
 //		wd.get("https://www.google.com/");
 		
-		wd.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
+		wd.get("https://www.webroot.com/us/en/cart?key=206636B2-ACE5-4D15-B267-16EC7E08A593");
+		wd.manage().window().maximize();
 		
 	}
 	
-	@Test(invocationCount = 10)
-	public void validateLogin() {
-		//Find the elements in DOM
-//		WebElement emailInput = wd.findElement(By.cssSelector("[id^='input-e']"));
-//		WebElement passwordInput = wd.findElement(By.cssSelector("[id^='input-p']"));
-//		WebElement loginBtn = wd.findElement(By.cssSelector("input[value = 'Login']"));
+	@Test
+	public void validateButtonIsEnabled() {
+		WebElement selectCountryField = wd.findElement(By.cssSelector("select[name = 'billing.country']"));
+		Select sc = new Select(selectCountryField);
 		
-		WebElement emailInput = wd.findElement(By.xpath("//input[@name = 'email']"));
-		WebElement passwordInput = wd.findElement(By.xpath("//input[@name = 'password']"));
-		WebElement loginBtn = wd.findElement(By.xpath("//input[@value= 'Login']"));
+		//Selecting the dropdown option by index
+		sc.selectByIndex(4);
+		Assert.assertEquals(sc.getFirstSelectedOption().getText(), "United Kingdom","United Kingdom not selected");
+		sc.selectByValue("IN");
+		Assert.assertEquals(sc.getFirstSelectedOption().getText(), "India","India not selected");
 		
-		//perform actions
-		//enter text in an input field
-		emailInput.sendKeys("tony@email.com");
-		passwordInput.sendKeys("Password1");
-		//click on the login button
-//		loginBtn.click();
+		sc.selectByVisibleText("China");
+		Assert.assertEquals(sc.getFirstSelectedOption().getText(), "China","China not selected");
 		
-		loginBtn.submit();
-		
-		System.out.println(wd.getTitle());
-		Assert.assertEquals(wd.getTitle(),"My Account","You are not on Correct Page");
+			
 	}
+	
+	
 
 	@AfterMethod
 	public void tearDown() {

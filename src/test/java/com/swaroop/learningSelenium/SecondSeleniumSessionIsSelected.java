@@ -12,7 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class FirstSeleniumSession {
+public class SecondSeleniumSessionIsSelected {
 	
 	WebDriver wd;
 	
@@ -33,33 +33,19 @@ public class FirstSeleniumSession {
 		//Load a webPage
 //		wd.get("https://www.google.com/");
 		
-		wd.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
+		wd.get("https://naveenautomationlabs.com/opencart/index.php?route=account/register");
 		
 	}
 	
-	@Test(invocationCount = 10)
-	public void validateLogin() {
-		//Find the elements in DOM
-//		WebElement emailInput = wd.findElement(By.cssSelector("[id^='input-e']"));
-//		WebElement passwordInput = wd.findElement(By.cssSelector("[id^='input-p']"));
-//		WebElement loginBtn = wd.findElement(By.cssSelector("input[value = 'Login']"));
+	@Test
+	public void validateButtonIsEnabled() {
+		WebElement radioButtonNo = wd.findElement(By.xpath("( //input[@name = 'newsletter'])[2]"));
+		boolean isNoButtonSelected = radioButtonNo.isSelected();
+		Assert.assertTrue(isNoButtonSelected, "Radio Button No is not selected");
 		
-		WebElement emailInput = wd.findElement(By.xpath("//input[@name = 'email']"));
-		WebElement passwordInput = wd.findElement(By.xpath("//input[@name = 'password']"));
-		WebElement loginBtn = wd.findElement(By.xpath("//input[@value= 'Login']"));
-		
-		//perform actions
-		//enter text in an input field
-		emailInput.sendKeys("tony@email.com");
-		passwordInput.sendKeys("Password1");
-		//click on the login button
-//		loginBtn.click();
-		
-		loginBtn.submit();
-		
-		System.out.println(wd.getTitle());
-		Assert.assertEquals(wd.getTitle(),"My Account","You are not on Correct Page");
 	}
+	
+	
 
 	@AfterMethod
 	public void tearDown() {

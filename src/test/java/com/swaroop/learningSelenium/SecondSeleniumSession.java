@@ -12,7 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class FirstSeleniumSession {
+public class SecondSeleniumSession {
 	
 	WebDriver wd;
 	
@@ -33,37 +33,28 @@ public class FirstSeleniumSession {
 		//Load a webPage
 //		wd.get("https://www.google.com/");
 		
-		wd.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
+		wd.get("https://ca.hotels.com/login?&uurl=e3id%3Dredr%26rurl%3D%2F%3Flocale%3Den_CA%26pos%3DHCOM_CA%26siteid%3D300000002");
 		
 	}
 	
-	@Test(invocationCount = 10)
-	public void validateLogin() {
-		//Find the elements in DOM
-//		WebElement emailInput = wd.findElement(By.cssSelector("[id^='input-e']"));
-//		WebElement passwordInput = wd.findElement(By.cssSelector("[id^='input-p']"));
-//		WebElement loginBtn = wd.findElement(By.cssSelector("input[value = 'Login']"));
+	@Test
+	public void validateButtonIsEnabled() {
+		WebElement continueBtn = wd.findElement(By.id("loginFormSubmitButton"));
+		WebElement emailInput = wd.findElement(By.id("loginFormEmailInput"));
+		boolean isButtonEnabled = continueBtn.isEnabled();
+		Assert.assertFalse(isButtonEnabled,"Button is enabled");
 		
-		WebElement emailInput = wd.findElement(By.xpath("//input[@name = 'email']"));
-		WebElement passwordInput = wd.findElement(By.xpath("//input[@name = 'password']"));
-		WebElement loginBtn = wd.findElement(By.xpath("//input[@value= 'Login']"));
+		emailInput.sendKeys("12345@email.com");
+		isButtonEnabled = continueBtn.isEnabled();
+		Assert.assertTrue(isButtonEnabled, "Button is enabled after entering email");
 		
-		//perform actions
-		//enter text in an input field
-		emailInput.sendKeys("tony@email.com");
-		passwordInput.sendKeys("Password1");
-		//click on the login button
-//		loginBtn.click();
-		
-		loginBtn.submit();
-		
-		System.out.println(wd.getTitle());
-		Assert.assertEquals(wd.getTitle(),"My Account","You are not on Correct Page");
 	}
+	
+	
 
 	@AfterMethod
 	public void tearDown() {
 		//Used to close the current webdriver instance, close the browser
-		wd.close();
+//		wd.close();
 	}
 }
